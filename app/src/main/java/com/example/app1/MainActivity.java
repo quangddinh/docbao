@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRcvMenu = findViewById(R.id.rcvVnexpress);
-        mAdapter = new Adapter(mArraylistVnExpress);
-        mRcvMenu.setAdapter(mAdapter);
+
 
         runOnUiThread(new Runnable() {
             @Override
@@ -44,6 +42,12 @@ public class MainActivity extends AppCompatActivity {
                 new ReadData().execute("https://vnexpress.net/rss/khoa-hoc.rss");
             }
         });
+
+        mRcvMenu = findViewById(R.id.rcvVnexpress);
+        mAdapter = new Adapter(mArraylistVnExpress);
+        mRcvMenu.setAdapter(mAdapter);
+        mArraylistVnExpress = new ArrayList<VnExpress>();
+
     }
     class ReadData extends AsyncTask<String,Integer,String> {
 
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 title +=xmldomParser.getValue(element,"title");
                 link = xmldomParser.getValue(element,"link");
 
-
+                mArraylistVnExpress.add(new VnExpress(title,link,img));
 //                Log.d("BBB",link);
 //                Toast.makeText(MainActivity.this, title, Toast.LENGTH_LONG).show();
             }

@@ -33,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mRcvMenu = findViewById(R.id.rcvVnexpress);
+        mArraylistVnExpress = new ArrayList<VnExpress>();
 
 
         runOnUiThread(new Runnable() {
@@ -42,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 new ReadData().execute("https://vnexpress.net/rss/khoa-hoc.rss");
             }
         });
-
-        mRcvMenu = findViewById(R.id.rcvVnexpress);
-        mAdapter = new Adapter(mArraylistVnExpress);
-        mRcvMenu.setAdapter(mAdapter);
-        mArraylistVnExpress = new ArrayList<VnExpress>();
-
     }
     class ReadData extends AsyncTask<String,Integer,String> {
 
@@ -68,24 +63,26 @@ public class MainActivity extends AppCompatActivity {
             String link = "";
             String img = "";
             for (int i = 0; i < nodeList.getLength() ; i++) {
-
-                String cData = nodeList1.item(i + 1).getTextContent();
-                Pattern p = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>");
+                String cData = nodeList1.item(i +1).getTextContent();
+                Pattern p = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>"); // Đúng log nó ra hết img
                 Matcher matcher = p.matcher(cData);
-
                 if (matcher.find()) {
                     img = matcher.group(1);
-                    Log.d("BBB",img+ "............." + i);
+                    //                    Log.d("BBB",img+ "............." + i);
                 }
 
+
                 Element element = (Element) nodeList.item(i);
-                title +=xmldomParser.getValue(element,"title");
+                title =xmldomParser.getValue(element,"title");
                 link = xmldomParser.getValue(element,"link");
+
 
                 mArraylistVnExpress.add(new VnExpress(title,link,img));
 //                Log.d("BBB",link);
 //                Toast.makeText(MainActivity.this, title, Toast.LENGTH_LONG).show();
             }
+            mAdapter = new Adapter(mArraylistVnExpress);
+            mRcvMenu.setAdapter(mAdapter);
 
 
             super.onPostExecute(s);

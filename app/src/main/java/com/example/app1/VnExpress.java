@@ -2,6 +2,9 @@ package com.example.app1;
 
 public class VnExpress {
 
+    public VnExpress() {
+    }
+
     public VnExpress(String title, String link, String image) {
         this.title = title;
         this.link = link;

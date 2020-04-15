@@ -18,7 +18,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VnExpressViewHolder> {
 
     private ArrayList<VnExpress> mArrayVnExpress;
 
-    public Adapter(ArrayList<VnExpress> mArrayMenus) {
+    public Adapter(ArrayList<VnExpress> mArrayVnExpress) {
         this.mArrayVnExpress = mArrayVnExpress;
     }
 
@@ -37,8 +37,12 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VnExpressViewHolder> {
     public void onBindViewHolder(@NonNull VnExpressViewHolder holder, int position) {
         VnExpress vnExpress = mArrayVnExpress.get(position);
 //        holder.mImg.setImageResource(vnExpress.getImage());
+
         holder.mTvTitle.setText(vnExpress.getTitle());
         holder.mTvMota.setText(vnExpress.getLink());
+        VnExpress vnExpress1 = mArrayVnExpress.get(position);
+        Picasso.get().load("http://i.imgur.com/DvpvklR.png")
+                .into(holder.mImg); // ook quang
     }
 
     @Override
@@ -47,8 +51,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.VnExpressViewHolder> {
     }
 
     class VnExpressViewHolder extends RecyclerView.ViewHolder {
-        ImageView mImg;
+        ImageView mImg ;
         TextView mTvTitle, mTvMota;
+
+
         // ánh xạ
 
         public VnExpressViewHolder(@NonNull View itemView) {
